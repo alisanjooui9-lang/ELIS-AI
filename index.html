@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#05070d">
+<title>ELIS AI — ELIS Studio</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#04060b;
+  --panel:rgba(255,255,255,.055);
+  --border:rgba(255,255,255,.11);
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --blue:#38bdf8;
+  --purple:#8b5cf6;
+  --cyan:#22d3ee;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    Tahoma,
+    Arial,
+    sans-serif;
+  overflow:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:-2;
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(14,165,233,.18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(124,58,237,.20),
+      transparent 32%
+    ),
+    #04060b;
+}
+
+.orb{
+  position:absolute;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:.35;
+  animation:floatOrb 12s infinite alternate ease-in-out;
+}
+
+.orb.one{
+  background:#0891b2;
+  top:-120px;
+  right:-80px;
+}
+
+.orb.two{
+  background:#7c3aed;
+  bottom:-150px;
+  left:-100px;
+  animation-delay:2s;
+}
+
+.orb.three{
+  background:#2563eb;
+  top:40%;
+  left:40%;
+  width:250px;
+  height:250px;
+  animation-delay:4s;
+}
+
+@keyframes floatOrb{
+  from{
+    transform:translate(0,0) scale(1);
+  }
+  to{
+    transform:translate(80px,-40px) scale(1.2);
+  }
+}
+
+/* =========================
+   COMMON
+========================= */
+
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  padding:25px;
+}
+
+.page.active{
+  display:flex;
+}
+
+.container{
+  width:min(1180px,100%);
+  margin:auto;
+}
+
+.glass{
+  background:rgba(255,255,255,.055);
+  border:1px solid var(--border);
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 16px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);
+  color:#cbd5e1;
+  font-size:13px;
+}
+
+.gradientText{
+  background:
+    linear-gradient(
+      90deg,
+      #fff,
+      #67e8f9,
+      #a78bfa,
+      #fff
+    );
+  background-size:300%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:gradientMove 5s linear infinite;
+}
+
+@keyframes gradientMove{
+  to{
+    background-position:300%;
+  }
+}
+
+button{
+  font-family:inherit;
+}
+
+/* =========================
+   SPLASH
+========================= */
+
+#splash{
+  background:#020307;
+  text-align:center;
+  z-index:20;
+}
+
+.splashContent{
+  animation:splashEnter 1.7s ease forwards;
+}
+
+@keyframes splashEnter{
+  from{
+    opacity:0;
+    transform:scale(1.12);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+.elisLogo{
+  font-size:clamp(75px,18vw,150px);
+  font-weight:1000;
+  letter-spacing:14px;
+  line-height:1;
+  text-shadow:
+    0 0 25px rgba(56,189,248,.35),
+    0 0 80px rgba(139,92,246,.25);
+}
+
+.splashLine{
+  width:180px;
+  height:2px;
+  margin:28px auto;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #67e8f9,
+      #8b5cf6,
+      transparent
+    );
+  animation:linePulse 2s infinite;
+}
+
+@keyframes linePulse{
+  50%{
+    transform:scaleX(1.5);
+    opacity:.5;
+  }
+}
+
+.splashText{
+  color:#94a3b8;
+  font-size:15px;
+}
+
+/* =========================
+   AD / LANDING
+========================= */
+
+#landing{
+  opacity:0;
+}
+
+.landingTop{
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.landingTop h1{
+  font-size:clamp(42px,8vw,82px);
+  margin:20px 0 12px;
+  font-weight:1000;
+}
+
+.landingTop p{
+  color:#94a3b8;
+  font-size:17px;
+  line-height:2;
+}
+
+.hero{
+  position:relative;
+  min-height:430px;
+  padding:55px;
+  border-radius:36px;
+  overflow:hidden;
+}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  width:450px;
+  height:450px;
+  background:#2563eb;
+  filter:blur(150px);
+  opacity:.18;
+  left:-150px;
+  bottom:-200px;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:350px;
+  height:350px;
+  background:#8b5cf6;
+  filter:blur(130px);
+  opacity:.15;
+  right:-100px;
+  top:-150px;
+}
+
+.heroContent{
+  position:relative;
+  z-index:2;
+  max-width:760px;
+}
+
+.heroTitle{
+  font-size:clamp(34px,6vw,64px);
+  line-height:1.25;
+  font-weight:900;
+  margin:25px 0;
+}
+
+.heroDescription{
+  color:#a8b3c4;
+  line-height:2.1;
+  font-size:16px;
+  max-width:700px;
+}
+
+.primaryButton{
+  border:0;
+  padding:16px 28px;
+  margin-top:30px;
+  border-radius:16px;
+  color:white;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+  background:
+    linear-gradient(
+      135deg,
+      #0284c7,
+      #4f46e5,
+      #7c3aed
+    );
+  box-shadow:
+    0 15px 40px rgba(37,99,235,.3);
+  transition:.25s;
+}
+
+.primaryButton:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:
+    0 20px 50px rgba(124,58,237,.4);
+}
+
+.aiPreview{
+  position:absolute;
+  left:45px;
+  bottom:40px;
+  width:310px;
+  padding:20px;
+  border-radius:25px;
+  background:rgba(2,6,23,.7);
+  border:1px solid rgba(255,255,255,.1);
+  transform:rotate(-3deg);
+  box-shadow:0 25px 60px #0008;
+}
+
+.previewTop{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.aiDot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#22d3ee;
+  box-shadow:0 0 15px #22d3ee;
+}
+
+.previewMessage{
+  padding:12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  color:#cbd5e1;
+  font-size:13px;
+  line-height:1.8;
+  margin-top:9px;
+}
+
+.featureGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.featureCard{
+  min-height:145px;
+  padding:22px;
+  border-radius:24px;
+  transition:.3s;
+}
+
+.featureCard:hover{
+  transform:translateY(-7px);
+  border-color:rgba(103,232,249,.3);
+}
+
+.featureIcon{
+  font-size:32px;
+  margin-bottom:15px;
+}
+
+.featureCard h3{
+  font-size:17px;
+  margin-bottom:8px;
+}
+
+.featureCard p{
+  color:#8491a5;
+  font-size:12px;
+  line-height:1.8;
+}
+
+/* =========================
+   AUTH
+========================= */
+
+#auth{
+  opacity:0;
+}
+
+.authBox{
+  width:min(460px,100%);
+  padding:35px;
+  border-radius:30px;
+}
+
+.authLogo{
+  font-size:42px;
+  font-weight:1000;
+  margin-bottom:15px;
+}
+
+.authBox h2{
+  font-size:27px;
+  margin:10px 0;
+}
+
+.authBox p{
+  color:#94a3b8;
+  font-size:13px;
+  margin-bottom:25px;
+  line-height:2;
+}
+
+.inputGroup{
+  text-align:right;
+  margin-bottom:15px;
+}
+
+.inputGroup label{
+  display:block;
+  color:#cbd5e1;
+  font-size:13px;
+  margin-bottom:7px;
+}
+
+.input{
+  width:100%;
+  padding:16px;
+  border-radius:15px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.3);
+  color:#fff;
+  outline:none;
+  font-family:inherit;
+  transition:.2s;
+}
+
+.input:focus{
+  border-color:#38bdf8;
+  box-shadow:0 0 0 3px rgba(56,189,248,.08);
+}
+
+.fullButton{
+  width:100%;
+  margin:10px 0 0;
+}
+
+.authNote{
+  text-align:center;
+  color:#64748b;
+  font-size:11px;
+  margin-top:18px;
+}
+
+/* =========================
+   CHAT APP
+========================= */
+
+#app{
+  padding:0;
+  align-items:stretch;
+}
+
+.app{
+  width:100%;
+  height:100%;
+  display:flex;
+  overflow:hidden;
+}
+
+.sidebar{
+  width:270px;
+  flex-shrink:0;
+  padding:18px;
+  border-left:1px solid rgba(255,255,255,.08);
+  background:rgba(3,7,18,.75);
+  backdrop-filter:blur(25px);
+  display:flex;
+  flex-direction:column;
+}
+
+.sideLogo{
+  font-size:27px;
+  font-weight:1000;
+  margin:5px 10px 25px;
+}
+
+.newChat{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.1);
+  color:#fff;
+  background:linear-gradient(
+    135deg,
+    rgba(37,99,235,.8),
+    rgba(124,58,237,.8)
+  );
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.sideTitle{
+  color:#64748b;
+  font-size:11px;
+  margin:25px 10px 10px;
+}
+
+.history{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.historyItem{
+  padding:12px;
+  border-radius:12px;
+  color:#a8b3c4;
+  font-size:12px;
+  cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.historyItem:hover{
+  background:rgba(255,255,255,.06);
+  color:#fff;
+}
+
+.sidebarBottom{
+  margin-top:auto;
+}
+
+.sideButton{
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:#94a3b8;
+  text-align:right;
+  cursor:pointer;
+}
+
+.sideButton:hover{
+  background:rgba(255,255,255,.05);
+  color:#fff;
+}
+
+.chatArea{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+}
+
+.chatHeader{
+  height:72px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  background:rgba(3,7,18,.35);
+  backdrop-filter:blur(20px);
+}
+
+.modelInfo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.modelAvatar{
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#06b6d4,#7c3aed);
+  font-weight:900;
+  box-shadow:0 0 25px rgba(34,211,238,.2);
+}
+
+.modelName{
+  font-weight:bold;
+  font-size:14px;
+}
+
+.online{
+  display:block;
+  color:#22c55e;
+  font-size:10px;
+  margin-top:3px;
+}
+
+.headerButton{
+  border:0;
+  background:rgba(255,255,255,.05);
+  color:#cbd5e1;
+  border-radius:12px;
+  padding:10px 13px;
+  cursor:pointer;
+}
+
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:35px max(20px,8%);
+  scroll-behavior:smooth;
+}
+
+.messages::-webkit-scrollbar{
+  width:5px;
+}
+
+.messages::-webkit-scrollbar-thumb{
+  background:#334155;
+  border-radius:10px;
+}
+
+.welcomeChat{
+  text-align:center;
+  max-width:720px;
+  margin:7vh auto 35px;
+}
+
+.welcomeChat .bigIcon{
+  width:75px;
+  height:75px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:25px;
+  font-size:35px;
+  background:linear-gradient(135deg,#0891b2,#7c3aed);
+  box-shadow:0 20px 60px rgba(124,58,237,.2);
+}
+
+.welcomeChat h1{
+  font-size:clamp(28px,5vw,45px);
+  margin:22px 0 10px;
+}
+
+.welcomeChat p{
+  color:#64748b;
+  font-size:13px;
+  line-height:2;
+}
+
+.suggestions{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:25px;
+}
+
+.suggestion{
+  padding:15px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.035);
+  color:#cbd5e1;
+  cursor:pointer;
+  text-align:right;
+  transition:.2s;
+}
+
+.suggestion:hover{
+  border-color:rgba(56,189,248,.3);
+  transform:translateY(-2px);
+}
+
+.message{
+  display:flex;
+  gap:12px;
+  margin:22px 0;
+  animation:messageIn .3s ease;
+}
+
+@keyframes messageIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.message.user{
+  flex-direction:row-reverse;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  min-width:38px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.07);
+  font-size:15px;
+}
+
+.message.user .avatar{
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+}
+
+.message.ai .avatar{
+  background:linear-gradient(135deg,#0891b2,#7c3aed);
+}
+
+.bubble{
+  max-width:min(720px,80%);
+  padding:14px 17px;
+  border-radius:18px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.07);
+  color:#dbe4ef;
+  line-height:2;
+  font-size:14px;
+}
+
+.message.user .bubble{
+  background:linear-gradient(
+    135deg,
+    rgba(37,99,235,.75),
+    rgba(79,70,229,.75)
+  );
+}
+
+.typing{
+  display:flex;
+  gap:5px;
+  padding:7px;
+}
+
+.typing span{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#94a3b8;
+  animation:typing 1s infinite;
+}
+
+.typing span:nth-child(2){
+  animation-delay:.15s;
+}
+
+.typing span:nth-child(3){
+  animation-delay:.3s;
+}
+
+@keyframes typing{
+  50%{
+    transform:translateY(-5px);
+    opacity:.4;
+  }
+}
+
+.chatBottom{
+  padding:15px max(20px,8%) 20px;
+  background:linear-gradient(
+    transparent,
+    rgba(4,6,11,.95) 25%
+  );
+}
+
+.inputArea{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  padding:10px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(15,23,42,.75);
+  box-shadow:0 15px 50px rgba(0,0,0,.3);
+}
+
+.chatInput{
+  flex:1;
+  min-width:0;
+  max-height:130px;
+  resize:none;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff;
+  font-family:inherit;
+  font-size:14px;
+  line-height:1.8;
+  padding:9px;
+}
+
+.chatInput::placeholder{
+  color:#64748b;
+}
+
+.toolButton{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:13px;
+  background:rgba(255,255,255,.05);
+  color:#94a3b8;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+.toolButton:hover{
+  background:rgba(255,255,255,.1);
+  color:#fff;
+}
+
+.sendButton{
+  width:45px;
+  height:45px;
+  border:0;
+  border-radius:14px;
+  color:white;
+  background:linear-gradient(135deg,#0891b2,#7c3aed);
+  cursor:pointer;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.disclaimer{
+  text-align:center;
+  color:#475569;
+  font-size:9px;
+  margin-top:9px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:850px){
+
+  .hero{
+    min-height:480px;
+    padding:35px;
+  }
+
+  .aiPreview{
+    display:none;
+  }
+
+  .featureGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .sidebar{
+    width:75px;
+    padding:10px;
+  }
+
+  .sideLogo{
+    text-align:center;
+    font-size:20px;
+    margin:8px 0 20px;
+  }
+
+  .newChat{
+    font-size:0;
+  }
+
+  .newChat:after{
+    content:"+";
+    font-size:24px;
+  }
+
+  .sideTitle,
+  .history,
+  .sidebarBottom{
+    display:none;
+  }
+}
+
+@media(max-width:600px){
+
+  .page{
+    padding:15px;
+  }
+
+  .hero{
+    padding:28px;
+    border-radius:25px;
+  }
+
+  .landingTop{
+    margin-bottom:20px;
+  }
+
+  .landingTop h1{
+    font-size:42px;
+  }
+
+  .featureGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .featureCard{
+    min-height:125px;
+    padding:16px;
+  }
+
+  .featureIcon{
+    font-size:25px;
+  }
+
+  .authBox{
+    padding:25px;
+  }
+
+  .suggestions{
+    grid-template-columns:1fr;
+  }
+
+  .messages{
+    padding:20px 12px;
+  }
+
+  .chatBottom{
+    padding:10px;
+  }
+
+  .bubble{
+    max-width:85%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<div class="background">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+</div>
+
+
+<!-- ==================================================
+     1. SPLASH
+================================================== -->
+
+<section id="splash" class="page active">
+
+  <div class="splashContent">
+
+    <div class="badge">
+      ELIS STUDIO
+    </div>
+
+    <div class="elisLogo gradientText">
+      ELIS
+    </div>
+
+    <div class="splashLine"></div>
+
+    <div class="splashText">
+      یک نسل جدید از هوش مصنوعی
+    </div>
+
+    <div class="small">
+      ELIS Studio تقدیم می‌کند
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==================================================
+     2. LANDING / AD
+================================================== -->
+
+<section id="landing" class="page">
+
+  <div class="container">
+
+    <div class="landingTop">
+
+      <span class="badge">
+        ✦ ELIS AI • SMART • FAST • POWERFUL
+      </span>
+
+      <h1 class="gradientText">
+        ELIS AI
+      </h1>
+
+      <p>
+        دستیار هوشمند فارسی برای فهمیدن، تحقیق کردن،
+        حل کردن و ساختن.
+      </p>
+
+    </div>
+
+
+    <div class="hero glass">
+
+      <div class="heroContent">
+
+        <span class="badge">
+          🧠 نسل جدید دستیار هوشمند
+        </span>
+
+        <div class="heroTitle">
+          هر چیزی را بپرس.
+          <br>
+          <span class="gradientText">
+            ELIS همراه توست.
+          </span>
+        </div>
+
+        <div class="heroDescription">
+
+          از سؤال‌های درسی و ریاضی گرفته تا تحقیق،
+          برنامه‌نویسی، تحلیل فایل و تصویر؛
+          هدف ELIS این است که یک دستیار هوشمند
+          چندمنظوره و قدرتمند برای کاربران فارسی‌زبان باشد.
+
+        </div>
+
+        <button
+          class="primaryButton"
+          onclick="showAuth()"
+        >
+          شروع رایگان با ELIS AI
+          ←
+        </button>
+
+      </div>
+
+
+      <div class="aiPreview">
+
+        <div class="previewTop">
+
+          <div class="aiDot"></div>
+
+          <strong>
+            ELIS AI
+          </strong>
+
+        </div>
+
+        <div class="previewMessage">
+          سلام! من ELIS هستم.
+          درخواستت را بفرست تا با هم بررسی کنیم.
+        </div>
+
+        <div class="previewMessage">
+          🧠 در حال آماده‌سازی پاسخ هوشمند...
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="featureGrid">
+
+      <div class="featureCard glass">
+
+        <div class="featureIcon">
+          🧠
+        </div>
+
+        <h3>
+          درک مفهوم
+        </h3>
+
+        <p>
+          تلاش برای فهمیدن منظور واقعی سؤال
+          و انتخاب روش مناسب پاسخ.
+        </p>
+
+      </div>
+
+
+      <div class="featureCard glass">
+
+        <div class="featureIcon">
+          🔎
+        </div>
+
+        <h3>
+          تحقیق
+        </h3>
+
+        <p>
+          مناسب برای بررسی موضوعات و جمع‌آوری
+          اطلاعات از منابع مختلف.
+        </p>
+
+      </div>
+
+
+      <div class="featureCard glass">
+
+        <div class="featureIcon">
+          ➗
+        </div>
+
+        <h3>
+          حل مسئله
+        </h3>
+
+        <p>
+          حل مسائل ریاضی و آموزشی با
+          توضیح مرحله‌به‌مرحله.
+        </p>
+
+      </div>
+
+
+      <div class="featureCard glass">
+
+        <div class="featureIcon">
+          💻
+        </div>
+
+        <h3>
+          برنامه‌نویسی
+        </h3>
+
+        <p>
+          آماده برای اتصال به Ghost Code AI
+          در نسخه‌های آینده.
+        </p>
+
+      </div>
+
+
+      <div class="featureCard glass">
+
+        <div class="featureIcon">
+          🖼️
+        </div>
+
+        <h3>
+          بینایی
+        </h3>
+
+        <p>
+          زیرساخت اولیه برای تحلیل تصاویر
+          و فایل‌ها.
+        </p>
+
+      </div>
+
+
+      <div class="featureCard glass">
+
+        <div class="featureIcon">
+          💬
+        </div>
+
+        <h3>
+          گفت‌وگوی هوشمند
+        </h3>
+
+        <p>
+          گفت‌وگو با رابطی شبیه دستیارهای
+          مدرن هوش مصنوعی.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==================================================
+     3. AUTH
+================================================== -->
+
+<section id="auth" class="page">
+
+  <div class="authBox glass">
+
+    <div class="authLogo gradientText">
+      ELIS
+    </div>
+
+    <h2>
+      به ELIS AI خوش آمدی
+    </h2>
+
+    <p>
+      برای ساخت پروفایل اولیه، اطلاعات زیر را وارد کن.
+    </p>
+
+
+    <div class="inputGroup">
+
+      <label>
+        نام نمایشی
+      </label>
+
+      <input
+        id="registerName"
+        class="input"
+        type="text"
+        placeholder="مثلاً کاربر نمونه"
+        autocomplete="name"
+      >
+
+    </div>
+
+
+    <div class="inputGroup">
+
+      <label>
+        ایمیل
+      </label>
+
+      <input
+        id="registerEmail"
+        class="input"
+        type="email"
+        placeholder="example@email.com"
+        autocomplete="email"
+      >
+
+    </div>
+
+
+    <div class="inputGroup">
+
+      <label>
+        رمز عبور
+      </label>
+
+      <input
+        id="registerPassword"
+        class="input"
+        type="password"
+        placeholder="حداقل ۶ کاراکتر"
+        autocomplete="new-password"
+      >
+
+    </div>
+
+
+    <button
+      class="primaryButton fullButton"
+      onclick="registerUser()"
+    >
+      ورود به ELIS AI
+    </button>
+
+
+    <div class="authNote">
+      نسخه فعلی از ذخیره‌سازی محلی مرورگر استفاده می‌کند.
+      اتصال حساب واقعی در مرحله Backend اضافه خواهد شد.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==================================================
+     4. MAIN AI CHAT
+================================================== -->
+
+<section id="app" class="page">
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="sideLogo gradientText">
+        ELIS
+      </div>
+
+
+      <button
+        class="newChat"
+        onclick="newChat()"
+      >
+        ＋ گفت‌وگوی جدید
+      </button>
+
+
+      <div class="sideTitle">
+        گفتگوهای اخیر
+      </div>
+
+
+      <div
+        id="history"
+        class="history"
+      >
+      </div>
+
+
+      <div class="sidebarBottom">
+
+        <button
+          class="sideButton"
+          onclick="showAbout()"
+        >
+          ⚙️ درباره ELIS
+        </button>
+
+        <button
+          class="sideButton"
+          onclick="logout()"
+        >
+          ↪ خروج
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- CHAT -->
+
+    <main class="chatArea">
+
+      <header class="chatHeader">
+
+        <div class="modelInfo">
+
+          <div class="modelAvatar">
+            E
+          </div>
+
+          <div>
+
+            <div class="modelName">
+              ELIS AI
+            </div>
+
+            <span class="online">
+              ● آماده پاسخ‌گویی
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="headerButton"
+          onclick="newChat()"
+        >
+          ＋ چت جدید
+        </button>
+
+      </header>
+
+
+      <!-- MESSAGES -->
+
+      <div
+        id="messages"
+        class="messages"
+      >
+
+        <div
+          id="welcomeChat"
+          class="welcomeChat"
+        >
+
+          <div class="bigIcon">
+            ✦
+          </div>
+
+          <h1>
+            سلام <span id="chatUser">کاربر</span>
+          </h1>
+
+          <p>
+            من ELIS AI هستم.
+            سؤال، ایده یا مسئله‌ات را بنویس.
+          </p>
+
+
+          <div class="suggestions">
+
+            <button
+              class="suggestion"
+              onclick="useSuggestion('یک موضوع را برای من توضیح بده')"
+            >
+              🧠 یک موضوع را برای من توضیح بده
+            </button>
+
+            <button
+              class="suggestion"
+              onclick="useSuggestion('این مسئله ریاضی را حل کن')"
+            >
+              ➗ یک مسئله ریاضی را حل کن
+            </button>
+
+            <button
+              class="suggestion"
+              onclick="useSuggestion('برای یک موضوع تحقیق انجام بده')"
+            >
+              🔎 برای یک موضوع تحقیق کن
+            </button>
+
+            <button
+              class="suggestion"
+              onclick="useSuggestion('یک کد پایتون برای من بنویس')"
+            >
+              💻 یک کد پایتون بنویس
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- INPUT -->
+
+      <div class="chatBottom">
+
+        <div class="inputArea">
+
+          <button
+            class="toolButton"
+            onclick="fakeTool('file')"
+            title="فایل"
+          >
+            📎
+          </button>
+
+
+          <button
+            class="toolButton"
+            onclick="fakeTool('image')"
+            title="تصویر"
+          >
+            🖼
+          </button>
+
+
+          <textarea
+            id="chatInput"
+            class="chatInput"
+            rows="1"
+            placeholder="پیامت را برای ELIS بنویس..."
+            onkeydown="handleKey(event)"
+          ></textarea>
+
+
+          <button
+            class="sendButton"
+            onclick="sendMessage()"
+            title="ارسال"
+          >
+            ➤
+          </button>
+
+        </div>
+
+
+        <div class="disclaimer">
+          ELIS AI در حال توسعه است و پاسخ‌های نسخه آزمایشی ممکن است کامل نباشند.
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</section>
+
+
+<script>
+
+/* ==================================================
+   HELPERS
+================================================== */
+
+const $ = id => document.getElementById(id);
+
+
+/* نمایش صفحه */
+
+function show(id){
+
+  document
+    .querySelectorAll('.page')
+    .forEach(page => {
+
+      page.classList.remove('active');
+
+    });
+
+  $(id).classList.add('active');
+
+}
+
+
+/* ==================================================
+   SPLASH
+================================================== */
+
+setTimeout(() => {
+
+  const splash = $('splash');
+
+  splash.style.transition =
+    'opacity 2s ease, transform 2s ease';
+
+  splash.style.opacity = '0';
+
+  splash.style.transform = 'scale(1.04)';
+
+
+  setTimeout(() => {
+
+    splash.classList.remove('active');
+
+    const landing = $('landing');
+
+    landing.classList.add('active');
+
+    requestAnimationFrame(() => {
+
+      landing.style.transition =
+        'opacity 1.5s ease';
+
+      landing.style.opacity = '1';
+
+    });
+
+  },2000);
+
+},8000);
+
+
+/* ==================================================
+   AUTH
+================================================== */
+
+function showAuth(){
+
+  const landing = $('landing');
+
+  landing.style.opacity = '0';
+
+  landing.style.transition = 'opacity .6s ease';
+
+  setTimeout(() => {
+
+    landing.classList.remove('active');
+
+    const auth = $('auth');
+
+    auth.classList.add('active');
+
+    requestAnimationFrame(() => {
+
+      auth.style.opacity = '1';
+
+      auth.style.transition = 'opacity .7s ease';
+
+    });
+
+  },500);
+
+}
+
+
+/* ==================================================
+   REGISTER
+================================================== */
+
+function registerUser(){
+
+  const name =
+    $('registerName').value.trim() ||
+    'کاربر';
+
+
+  const email =
+    $('registerEmail').value.trim();
+
+
+  const password =
+    $('registerPassword').value;
+
+
+  if(!email){
+
+    alert('لطفاً ایمیل را وارد کن.');
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    alert('رمز عبور باید حداقل ۶ کاراکتر باشد.');
+
+    return;
+
+  }
+
+
+  const user = {
+
+    name:name,
+    email:email
+
+  };
+
+
+  localStorage.setItem(
+    'elisUser',
+    JSON.stringify(user)
+  );
+
+
+  $('chatUser').textContent = name;
+
+
+  show('app');
+
+  loadHistory();
+
+}
+
+
+/* ==================================================
+   AUTO LOGIN
+================================================== */
+
+const savedUser =
+  localStorage.getItem('elisUser');
+
+
+if(savedUser){
+
+  try{
+
+    const user =
+      JSON.parse(savedUser);
+
+    $('chatUser').textContent =
+      user.name || 'کاربر';
+
+  }catch(e){}
+
+}
+
+
+/* ==================================================
+   CHAT
+================================================== */
+
+function sendMessage(){
+
+  const input = $('chatInput');
+
+  const text =
+    input.value.trim();
+
+
+  if(!text){
+
+    return;
+
+  }
+
+
+  $('welcomeChat').style.display =
+    'none';
+
+
+  addMessage(
+    'user',
+    escapeHTML(text)
+  );
+
+
+  input.value = '';
+
+  input.style.height = 'auto';
+
+
+  saveHistory(text);
+
+
+  showTyping();
+
+
+  setTimeout(() => {
+
+    removeTyping();
+
+
+    const response =
+      generateDemoResponse(text);
+
+
+    addMessage(
+      'ai',
+      response
+    );
+
+  },900);
+
+}
+
+
+/* ارسال با Enter */
+
+function handleKey(event){
+
+  if(
+    event.key === 'Enter' &&
+    !event.shiftKey
+  ){
+
+    event.preventDefault();
+
+    sendMessage();
+
+  }
+
+}
+
+
+/* پیشنهادها */
+
+function useSuggestion(text){
+
+  $('chatInput').value = text;
+
+  sendMessage();
+
+}
+
+
+/* اضافه کردن پیام */
+
+function addMessage(type,text){
+
+  const messages =
+    $('messages');
+
+
+  const message =
+    document.createElement('div');
+
+
+  message.className =
+    'message ' + type;
+
+
+  const avatar =
+    document.createElement('div');
+
+
+  avatar.className =
+    'avatar';
+
+
+  avatar.textContent =
+    type === 'user'
+      ? 'ش'
+      : 'E';
+
+
+  const bubble =
+    document.createElement('div');
+
+
+  bubble.className =
+    'bubble';
+
+
+  bubble.innerHTML =
+    text;
+
+
+  message.appendChild(avatar);
+
+  message.appendChild(bubble);
+
+  messages.appendChild(message);
+
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+}
+
+
+/* ==================================================
+   DEMO AI
+================================================== */
+
+function generateDemoResponse(text){
+
+  const lower =
+    text.toLowerCase();
+
+
+  if(
+    lower.includes('سلام') ||
+    lower.includes('hello')
+  ){
+
+    return `
+      سلام.
+      من ELIS AI هستم.
+      در این نسخه رابط چت و هسته اولیه
+      آماده شده‌اند.
+      <br><br>
+      در نسخه‌های بعدی می‌توان مدل هوش مصنوعی
+      واقعی، تحقیق، بینایی، ریاضی و Ghost Code AI
+      را به این رابط متصل کرد.
+    `;
+
+  }
+
+
+  if(
+    lower.includes('پایتون') ||
+    lower.includes('کد') ||
+    lower.includes('برنامه')
+  ){
+
+    return `
+      درخواست برنامه‌نویسی دریافت شد.
+      <br><br>
+      بخش برنامه‌نویسی ELIS در معماری پروژه
+      برای اتصال به <b>Ghost Code AI</b>
+      در Update 2 در نظر گرفته شده است.
+      <br><br>
+      فعلاً این پاسخ نمونه است و هنوز به مدل
+      واقعی برنامه‌نویسی متصل نیست.
+    `;
+
+  }
+
+
+  if(
+    lower.includes('ریاضی') ||
+    lower.includes('حساب') ||
+    lower.includes('+') ||
+    lower.includes('×') ||
+    lower.includes('=')
+  ){
+
+    return `
+      درخواست ریاضی شناسایی شد.
+      <br><br>
+      ماژول حل مسئله ریاضی در Update 1
+      قرار است سؤال را تشخیص دهد،
+      محاسبه کند و نتیجه را بررسی کند.
+      <br><br>
+      این قسمت فعلاً نسخه نمایشی است.
+    `;
+
+  }
+
+
+  if(
+    lower.includes('تحقیق') ||
+    lower.includes('جستجو') ||
+    lower.includes('اطلاعات')
+  ){
+
+    return `
+      حالت تحقیق شناسایی شد.
+      <br><br>
+      در معماری ELIS، این درخواست می‌تواند
+      توسط Router به ماژول Research ارسال شود
+      تا در نسخه واقعی از منابع آنلاین استفاده کند.
+    `;
+
+  }
+
+
+  return `
+    درخواستت دریافت شد.
+    <br><br>
+    <b>ELIS AI</b> در این مرحله رابط چت،
+    مدیریت گفتگو و Router اولیه را دارد.
+    هسته هوش مصنوعی واقعی در مرحله بعد
+    به این رابط متصل خواهد شد.
+  `;
+
+}
+
+
+/* ==================================================
+   TYPING
+================================================== */
+
+function showTyping(){
+
+  const messages =
+    $('messages');
+
+
+  const typing =
+    document.createElement('div');
+
+
+  typing.id =
+    'typingMessage';
+
+
+  typing.className =
+    'message ai';
+
+
+  typing.innerHTML = `
+
+    <div class="avatar">
+      E
+    </div>
+
+    <div class="bubble">
+
+      <div class="typing">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  messages.appendChild(typing);
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+}
+
+
+function removeTyping(){
+
+  const typing =
+    $('typingMessage');
+
+
+  if(typing){
+
+    typing.remove();
+
+  }
+
+}
+
+
+/* ==================================================
+   HISTORY
+================================================== */
+
+function saveHistory(text){
+
+  let history =
+    JSON.parse(
+      localStorage.getItem('elisHistory') ||
+      '[]'
+    );
+
+
+  history.unshift(text);
+
+
+  history =
+    history.slice(0,12);
+
+
+  localStorage.setItem(
+    'elisHistory',
+    JSON.stringify(history)
+  );
+
+
+  loadHistory();
+
+}
+
+
+function loadHistory(){
+
+  const box =
+    $('history');
+
+
+  box.innerHTML = '';
+
+
+  let history =
+    JSON.parse(
+      localStorage.getItem('elisHistory') ||
+      '[]'
+    );
+
+
+  history.forEach(item => {
+
+    const div =
+      document.createElement('div');
+
+
+    div.className =
+      'historyItem';
+
+
+    div.textContent =
+      item;
+
+
+    div.onclick = () => {
+
+      $('chatInput').value =
+        item;
+
+    };
+
+
+    box.appendChild(div);
+
+  });
+
+}
+
+
+/* ==================================================
+   NEW CHAT
+================================================== */
+
+function newChat(){
+
+  $('messages').innerHTML = `
+
+    <div
+      id="welcomeChat"
+      class="welcomeChat"
+    >
+
+      <div class="bigIcon">
+        ✦
+      </div>
+
+      <h1>
+        گفت‌وگوی جدید
+      </h1>
+
+      <p>
+        درخواست جدیدت را برای ELIS بنویس.
+      </p>
+
+      <div class="suggestions">
+
+        <button
+          class="suggestion"
+          onclick="useSuggestion('یک موضوع را برای من توضیح بده')"
+        >
+          🧠 توضیح یک موضوع
+        </button>
+
+        <button
+          class="suggestion"
+          onclick="useSuggestion('یک مسئله ریاضی را حل کن')"
+        >
+          ➗ حل مسئله
+        </button>
+
+        <button
+          class="suggestion"
+          onclick="useSuggestion('برای من تحقیق کن')"
+        >
+          🔎 تحقیق
+        </button>
+
+        <button
+          class="suggestion"
+          onclick="useSuggestion('یک برنامه پایتون بنویس')"
+        >
+          💻 برنامه‌نویسی
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==================================================
+   FILE / IMAGE
+================================================== */
+
+function fakeTool(type){
+
+  if(type === 'file'){
+
+    alert(
+      'سیستم تحلیل فایل در نسخه بعدی به ELIS اضافه می‌شود.'
+    );
+
+  }
+
+
+  if(type === 'image'){
+
+    alert(
+      'سیستم بینایی و تحلیل تصویر در نسخه بعدی فعال می‌شود.'
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   ABOUT
+================================================== */
+
+function showAbout(){
+
+  alert(
+`ELIS AI
+
+توسعه توسط ELIS Studio
+
+Update 1:
+درک مفهوم، چت، آموزش، ریاضی و تحقیق
+
+Update 2:
+اتصال Ghost Code AI و قابلیت‌های برنامه‌نویسی
+
+Update 3:
+گفت‌وگوی صوتی، بینایی پیشرفته و تولید تصویر`
+  );
+
+}
+
+
+/* ==================================================
+   LOGOUT
+================================================== */
+
+function logout(){
+
+  localStorage.removeItem('elisUser');
+
+  location.reload();
+
+}
+
+
+/* ==================================================
+   ESCAPE HTML
+================================================== */
+
+function escapeHTML(text){
+
+  const div =
+    document.createElement('div');
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
+
+}
+
+
+/* ==================================================
+   TEXTAREA AUTO HEIGHT
+================================================== */
+
+$('chatInput').addEventListener(
+  'input',
+  function(){
+
+    this.style.height =
+      'auto';
+
+    this.style.height =
+      Math.min(
+        this.scrollHeight,
+        130
+      ) + 'px';
+
+  }
+);
+
+
+/* ==================================================
+   START
+================================================== */
+
+loadHistory();
+
+</script>
+
+</body>
+  </html>
